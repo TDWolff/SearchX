@@ -5,13 +5,14 @@ services:
   caddy:
     container_name: caddy
     image: caddy:2-alpine
-    network_mode: host
+    networks:
+      - searchx_searxng
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data:rw
       - caddy-config:/config:rw
     environment:
-      - SEARXNG_HOSTNAME=${SEARXNG_HOSTNAME:-http://localhost:80}
+      - SEARXNG_HOSTNAME=${SEARXNG_HOSTNAME:-http://localhost:8080}
       - SEARXNG_TLS=${LETSENCRYPT_EMAIL:-internal}
     cap_drop:
       - ALL
@@ -23,7 +24,7 @@ services:
     image: "redis:alpine"
     command: redis-server --save "" --appendonly "no"
     networks:
-      - searxng
+      - searchx_searxng
     tmpfs:
       - /var/lib/redis
     cap_drop:
@@ -37,14 +38,11 @@ services:
     container_name: searxng
     image: searxng/searxng:latest
     networks:
-      - searxng
+      - searchx_searxng
     ports:
      - "127.0.0.1:8080:8080"
     volumes:
       - ./searxng:/etc/searxng:rw
-      - type: bind
-        source: ./searxng.png
-        target: /usr/local/searxng/searx/static/themes/simple/img/searxng.png
     environment:
       - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
     cap_drop:
@@ -58,10 +56,10 @@ services:
       options:
         max-size: "1m"
         max-file: "1"
+
 networks:
-  searxng:
-    ipam:
-      driver: default
+  searchx_searxng:
+    external: true
 
 volumes:
   caddy-data:
