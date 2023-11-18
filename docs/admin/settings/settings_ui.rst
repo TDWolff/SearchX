@@ -16,7 +16,7 @@
      infinite_scroll: false
      center_alignment: false
      cache_url: https://web.archive.org/web/
-     default_theme: simple
+     default_theme: oscar
      theme_args:
        simple_style: auto
      search_on_category_select: true
@@ -43,7 +43,7 @@
 ``center_alignment`` : default ``false``
   When enabled, the results are centered instead of being in the left (or RTL)
   side of the screen.  This setting only affects the *desktop layout*
-  (:origin:`min-width: @tablet <searx/static/themes/simple/src/less/definitions.less>`)
+  (:origin:`min-width: @tablet <searx/static/themes/oscar/src/less/definitions.less>`)
 
 .. cache_url:
 

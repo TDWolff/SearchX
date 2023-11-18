@@ -49,7 +49,7 @@ e.g. the *simple* theme.
 
 .. code:: bash
 
-   make themes.simple
+   make themes.oscar
 
 .. tip::
 
